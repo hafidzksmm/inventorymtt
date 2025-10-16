@@ -14,8 +14,8 @@
 
         <sidebar-item
             :link="{
-              name: 'Inventary Workshop',
-              path: '/icons',
+              name: 'Inventory Workshop',
+              path: '/inventoryws',
               icon: 'ni ni-briefcase-24 text-blue'
               }"
             >
@@ -24,9 +24,18 @@
         <sidebar-item
               :link="{
                 name: 'Inventory Project',
-                path: '/maps',
+                path: '/inventoryproject',
                 icon: 'ni ni-briefcase-24 text-orange'
               }">
+        </sidebar-item>
+
+        <sidebar-item
+            :link="{
+              name: 'Inventory Asset Jual',
+              path: '/assetjual',
+              icon: 'ni ni-briefcase-24 text-blue'
+              }"
+            >
         </sidebar-item>
 
       </template>

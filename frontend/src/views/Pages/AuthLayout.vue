@@ -9,7 +9,7 @@
     >
       <div slot="brand" class="navbar-wrapper">
         <b-navbar-brand to="/">
-          <img src="img/brand/white.png">
+          <img src="/frontend/src/assets/logo.png">
         </b-navbar-brand>
       </div>
 
@@ -30,10 +30,6 @@
          </b-row>
        </div>
          <b-navbar-nav  class="align-items-lg-center ml-lg-auto">
-           <b-nav-item to="/dashboard">
-               <i class="ni ni-planet"></i>
-               <span class="nav-link-inner--text">Dashboard</span>
-           </b-nav-item>
            <b-nav-item to="/register">
                <i class="ni ni-circle-08"></i>
                <span class="nav-link-inner--text">Register</span>
@@ -41,10 +37,6 @@
            <b-nav-item to="/login">
                <i class="ni ni-key-25"></i>
                <span class="nav-link-inner--text">Login</span>
-           </b-nav-item>
-           <b-nav-item to="/profile">
-               <i class="ni ni-single-02"></i>
-               <span class="nav-link-inner--text">Profile</span>
            </b-nav-item>
        </b-navbar-nav>
      </template>
@@ -64,24 +56,8 @@
         <b-row align-v="center" class="justify-content-xl-between">
           <b-col xl="6">
             <div class="copyright text-center text-xl-left text-muted">
-              © {{year}} <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+              © {{year}} <a href="#" class="font-weight-bold ml-1" target="_blank">by Apis</a>
             </div>
-          </b-col>
-          <b-col xl="6" class="col-xl-6">
-            <b-nav  class="nav-footer justify-content-center justify-content-xl-end">
-              <b-nav-item href="https://www.creative-tim.com" target="_blank" >
-                Creative Tim
-              </b-nav-item>
-              <b-nav-item href="https://www.creative-tim.com/presentation" target="_blank" >
-                About Us
-              </b-nav-item>
-              <b-nav-item href="http://blog.creative-tim.com"  target="_blank">
-                Blog
-              </b-nav-item>
-              <b-nav-item href="https://www.creative-tim.com/license" target="_blank">
-                License
-              </b-nav-item>
-            </b-nav>
           </b-col>
         </b-row>
       </b-container>

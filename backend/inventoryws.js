@@ -1,7 +1,13 @@
+const multer = require("multer");
+const xlsx = require("xlsx");
+const path = require("path");
+const fs = require("fs");
 const express = require("express");
 const router = express.Router();
 const db = require("./db");
 
+// Konfigurasi upload
+const upload = multer({ dest: "uploads/" });
 // ============================
 // 🏠 Home route
 // ============================
@@ -72,5 +78,42 @@ router.delete("/inventaris/:id", (req, res) => {
     res.json({ message: "🗑️ Data inventaris berhasil dihapus!" });
   });
 });
+
+// =======================================
+// 📥 IMPORT DATA DARI EXCEL (BARU)
+// =======================================
+// Import Excel ke database
+router.post("/inventaris/import", (req, res) => {
+  const data = req.body;
+
+  if (!Array.isArray(data) || data.length === 0) {
+    return res.status(400).json({ message: "Data tidak valid" });
+  }
+
+  const values = data.map(item => [
+    item.nama_barang || "",
+    item.merk || "",
+    item.deskripsi || "",
+    item.dimensi || "",
+    item.satuan || "",
+    item.qty || 0,
+    item.lokasi || ""
+  ]);
+
+  const sql = `
+    INSERT INTO inventaris (nama_barang, merk, deskripsi, dimensi,satuan, qty, lokasi)
+    VALUES ?
+  `;
+
+  db.query(sql, [values], (err, result) => {
+    if (err) {
+      console.error("Error inserting data:", err);
+      return res.status(500).json({ message: "Gagal menyimpan ke database" });
+    }
+    res.json({ message: "Import berhasil", inserted: result.affectedRows });
+  });
+});
+
+
 
 module.exports = router;

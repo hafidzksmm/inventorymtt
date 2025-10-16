@@ -1,62 +1,69 @@
 import DashboardLayout from '@/views/Layout/DashboardLayout.vue';
 import AuthLayout from '@/views/Pages/AuthLayout.vue';
-
 import NotFound from '@/views/NotFoundPage.vue';
 
 const routes = [
+  // 🔹 Route untuk login & register
   {
     path: '/',
-    redirect: 'dashboard',
-    component: DashboardLayout,
-    children: [
-      {
-        path: '/dashboard',
-        name: 'dashboard',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "demo" */ '../views/Dashboard.vue')
-      },
-      {
-        path: '/icons',
-        name: 'icons',
-        component: () => import(/* webpackChunkName: "demo" */ '../views/InventoryWS.vue')
-      },
-      {
-        path: '/profile',
-        name: 'profile',
-        component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/UserProfile.vue')
-      },
-      {
-        path: '/maps',
-        name: 'maps',
-        component: () => import(/* webpackChunkName: "demo" */ '../views/InventoryProjek.vue')
-      },
-      {
-        path: '/tables',
-        name: 'tables',
-        component: () => import(/* webpackChunkName: "demo" */ '../views/RegularTables.vue')
-      }
-    ]
-  },
-  {
-    path: '/',
-    redirect: 'login',
+    redirect: '/login', // login jadi halaman utama
     component: AuthLayout,
     children: [
       {
         path: '/login',
         name: 'login',
-        component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/Login.vue')
+        component: () => import('../views/Pages/Login.vue'),
       },
       {
         path: '/register',
         name: 'register',
-        component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/Register.vue')
+        component: () => import('../views/Pages/Register.vue'),
       },
-      { path: '*', component: NotFound }
-    ]
-  }
+    ],
+  },
+
+  // 🔹 Route setelah login
+  {
+    path: '/app',
+    redirect: '/dashboard',
+    component: DashboardLayout,
+    meta: { requiresAuth: true }, // <--- nanti dipakai di guard
+    children: [
+      {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: () => import('../views/Dashboard.vue'),
+      },
+      {
+        path: '/inventoryws',
+        name: 'Inventory WS',
+        component: () => import('../views/InventoryWS.vue'),
+      },
+      {
+        path: '/inventoryproject',
+        name: 'Inventory Project',
+        component: () => import('../views/InventoryProjek.vue'),
+      },
+      {
+        path: '/assetjual',
+        name: 'Asset Jual',
+        component: () => import('../views/Assetjual.vue'),
+      },
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('../views/Pages/UserProfile.vue'),
+      },
+      {
+        path: '/tables',
+        name: 'Tables',
+        component: () => import('../views/RegularTables.vue'),
+      },
+    ],
+  },
+
+  // 🔹 Route not found
+  { path: '*', component: NotFound },
 ];
 
 export default routes;

@@ -88,7 +88,31 @@
                     <li class="nav-item">
                         <a class="nav-link" target="blank"
                            href="https://mttech.co.id/">
-                            <i class="ni ni-spaceship"></i> Website MTT
+                            <i class="ni ni-spaceship"></i> Company Profile MTT
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mb-md-3">
+                    <li class="nav-item">
+                        <a class="nav-link" target="blank"
+                           href="http://192.168.40.150:5000/">
+                            <i class="ni ni-image"></i> Documentation Giat
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mb-md-3">
+                    <li class="nav-item">
+                        <a class="nav-link" target="blank"
+                           href="#">
+                            <i class="ni ni-paper-diploma"></i> Documentation Project
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mb-md-3">
+                    <li class="nav-item">
+                        <a class="nav-link" target="blank"
+                           href="#">
+                            <i class="ni ni-books"></i> Document Project
                         </a>
                     </li>
                 </ul>

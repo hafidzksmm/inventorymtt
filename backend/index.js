@@ -10,20 +10,24 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Import route
+// Import routes
 const inventorywsRoutes = require("./inventoryws");
 const inventoryprojekRoutes = require("./inventoryprojek");
+const assetjualRoutes = require("./assetjual");
+const usersRoutes = require("./users");
 
 // Gunakan route
 app.use("/api/inventaris", inventorywsRoutes);
 app.use("/api/inventaryprojek", inventoryprojekRoutes);
+app.use("/api/assetjual", assetjualRoutes);
+app.use("/api/users", usersRoutes);
 
-// Root route
+// Root test
 app.get("/", (req, res) => {
   res.send("🚀 API Utama Inventaris berjalan!");
 });
 
 // Jalankan server
 app.listen(PORT, () => {
-  console.log(`✅ Server berjalan di http://localhost:${PORT}`);
+  console.log(`✅ Server berjalan di http://192.168.10.9:${PORT}`);
 });
