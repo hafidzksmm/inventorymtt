@@ -58,10 +58,7 @@ export default {
         });
 
         Swal.fire("Berhasil", "Login berhasil!", "success");
-        // ✅ Simpan status login
         localStorage.setItem("user", JSON.stringify(res.data.user));
-
-        // ✅ Redirect ke dashboard
         this.$router.push("/dashboard");
       } catch (err) {
         this.error =
@@ -73,7 +70,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .login-container {

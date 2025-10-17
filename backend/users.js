@@ -1,4 +1,3 @@
-// 📁 users.js
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
@@ -27,6 +26,7 @@ router.post("/register", (req, res) => {
 
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
+
       const insertQuery =
         "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
       db.query(insertQuery, [username, email, hashedPassword], (err2) => {
@@ -73,14 +73,8 @@ router.post("/login", (req, res) => {
       return res.status(401).json({ message: "Password salah." });
     }
 
-    // 🚀 Jangan kirim password ke frontend
-    delete user.password;
-
     console.log("✅ Login berhasil:", user.username);
-    res.json({
-      message: "Login berhasil",
-      user,
-    });
+    res.json({ message: "Login berhasil", user });
   });
 });
 

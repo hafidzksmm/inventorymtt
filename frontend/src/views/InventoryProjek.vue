@@ -337,7 +337,7 @@ export default {
     async fetchData() {
       try {
         const res = await axios.get(
-          "http://192.168.40.200:5000/api/inventaryprojek/inventaryprojek"
+          "http://192.168.20.17:5000/api/inventaryprojek/inventaryprojek"
         );
         this.inventaris = res.data;
         this.currentPage = 1;
@@ -349,7 +349,7 @@ export default {
     async fetchLokasi() {
       try {
         const res = await axios.get(
-          "http://192.168.40.200:5000/api/inventaryprojek/lokasi"
+          "http://192.168.20.17:5000/api/inventaryprojek/lokasi"
         );
         this.lokasiOptions = [
           { value: "ALL", text: "📍 Semua Lokasi" },
@@ -385,7 +385,7 @@ export default {
 
         try {
           await axios.post(
-            "http://192.168.40.200:5000/api/inventaryprojek/inventaryprojek/import",
+            "http://192.168.20.17:5000/api/inventaryprojek/inventaryprojek/import",
             dataWithLocation
           );
           alert("✅ Import data berhasil!");
@@ -473,12 +473,12 @@ export default {
       try {
         if (this.form.id) {
           await axios.put(
-            `http://192.168.40.200:5000/api/inventaryprojek/inventaryprojek/${this.form.id}`,
+            `http://192.168.20.17:5000/api/inventaryprojek/inventaryprojek/${this.form.id}`,
             this.form
           );
         } else {
           await axios.post(
-            "http://192.168.40.200:5000/api/inventaryprojek/inventaryprojek",
+            "http://192.168.20.17:5000/api/inventaryprojek/inventaryprojek",
             this.form
           );
         }
@@ -494,7 +494,7 @@ export default {
       if (confirm("Yakin hapus data ini?")) {
         try {
           await axios.delete(
-            `http://192.168.40.200:5000/api/inventaryprojek/inventaryprojek/${id}`
+            `http://192.168.20.17:5000/api/inventaryprojek/inventaryprojek/${id}`
           );
           this.fetchData();
         } catch (err) {

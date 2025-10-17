@@ -9,6 +9,31 @@
         <img :src="logo" class="navbar-brand-img" alt="...">
       </router-link>
 
+      <slot name="mobile-right">
+        <ul class="nav align-items-center d-md-none">
+          <base-dropdown class="nav-item" menu-on-right tag="li" title-tag="a">
+            <a slot="title-container" class="nav-link nav-link-icon" href="#" role="button"
+               aria-haspopup="true" aria-expanded="false">
+              <i class="ni ni-bell-55"></i>
+            </a>
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </base-dropdown>
+
+          <base-dropdown class="nav-item" menu-on-right tag="li" title-tag="a">
+            <a slot="title-container" class="nav-link" href="#" role="button">
+              <div class="media align-items-center">
+                <span class="avatar avatar-sm rounded-circle">
+                  <img alt="Image placeholder" src="img/theme/team-1.jpg">
+                </span>
+              </div>
+            </a>
+
+          </base-dropdown>
+        </ul>
+      </slot>
 
       <slot></slot>
 
@@ -85,7 +110,6 @@
 
 <script>
 import NavbarToggleButton from '@/components/NavbarToggleButton'
-import Swal from 'sweetalert2'
 
 export default {
   name: 'sidebar',
@@ -116,25 +140,12 @@ export default {
     showSidebar() {
       this.$sidebar.displaySidebar(true)
     },
-logout() {
-  Swal.fire({
-    title: "Logout?",
-    text: "Apakah kamu yakin ingin keluar?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Ya, Logout",
-    cancelButtonText: "Batal",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // 🧩 Hapus data login
-      localStorage.removeItem('user');
-
-      // 🔒 Pastikan user tidak bisa back ke halaman sebelumnya
+    logout() {
+      // 🧩 Ganti dengan logic logout kamu
+      // Contoh: hapus token dan redirect ke login
+      localStorage.removeItem('token');
       this.$router.push('/login');
-      window.location.reload();
     }
-  });
-},
   },
   beforeDestroy() {
     if (this.$sidebar.showSidebar) {
