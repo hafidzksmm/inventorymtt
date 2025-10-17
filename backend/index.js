@@ -3,7 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-const PORT = 50;
+const PORT = 5000;
 
 // Middleware
 app.use(cors());

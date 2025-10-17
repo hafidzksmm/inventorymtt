@@ -96,9 +96,9 @@ export default {
     async fetchCounts() {
       try {
         const [inventarisRes, inventaryRes, assetRes] = await Promise.all([
-          axios.get("http://192.168.40.200:50/api/inventaris/inventaris"),
-          axios.get("http://192.168.40.200:50/api/inventaryprojek/inventaryprojek"),
-          axios.get("http://192.168.40.200:50/api/assetjual/assetjual"),
+          axios.get("http://192.168.40.200:5000/api/inventaris/inventaris"),
+          axios.get("http://192.168.40.200:5000/api/inventaryprojek/inventaryprojek"),
+          axios.get("http://192.168.40.200:5000/api/assetjual/assetjual"),
         ]);
 
         this.countInventaris = inventarisRes.data.length;
