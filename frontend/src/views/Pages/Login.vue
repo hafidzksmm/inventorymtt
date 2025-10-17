@@ -52,7 +52,7 @@ export default {
       }
 
       try {
-        const res = await axios.post("http://192.168.10.9:5000/api/users/login", {
+        const res = await axios.post("http://192.168.40.200:5000/api/users/login", {
           username: this.username,
           password: this.password,
         });

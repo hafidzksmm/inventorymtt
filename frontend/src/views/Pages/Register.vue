@@ -50,7 +50,7 @@ export default {
   methods: {
     async onSubmit() {
       try {
-        const res = await axios.post("http://192.168.10.9:5000/api/users/register", {
+        const res = await axios.post("http://192.168.40.200:5000/api/users/register", {
           username: this.username,
           email: this.email,
           password: this.password,
