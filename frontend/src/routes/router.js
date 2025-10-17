@@ -16,35 +16,47 @@ const router = new VueRouter({
 });
 
 // ===============================
-// 🛡️ Route Guard
+// 🛡️ Route Guard Lengkap
 // ===============================
 router.beforeEach(async (to, from, next) => {
   const publicPages = ['/login', '/register'];
   const authRequired = !publicPages.includes(to.path);
   const token = localStorage.getItem('token');
 
+  // 1️⃣ Halaman publik (login/register)
   if (!authRequired) {
-    return next(); // halaman publik
+    // Kalau user SUDAH login tapi mau ke /login atau /register → arahkan ke dashboard
+    if (token && (to.path === '/login' || to.path === '/register')) {
+      return next('/dashboard');
+    }
+    return next();
   }
 
+  // 2️⃣ Halaman butuh login tapi token kosong
   if (!token) {
-    return next('/login'); // belum login
+    return next('/login');
   }
 
+  // 3️⃣ Cek validitas token ke backend
   try {
     const res = await axios.get('http://192.168.40.200:5000/api/users/check-token', {
       headers: { Authorization: `Bearer ${token}` },
     });
 
     if (res.data.valid) {
-      return next(); // token valid, lanjut
+      return next(); // Token valid, lanjut ke halaman tujuan
     } else {
       localStorage.removeItem('token');
       return next('/login');
     }
   } catch (err) {
-    console.warn('Token invalid:', err);
-    localStorage.removeItem('token');
+    console.warn('Token invalid atau server error:', err);
+
+    // Kalau server balas 401 → token expired
+    if (err.response && err.response.status === 401) {
+      localStorage.removeItem('token');
+    }
+
     return next('/login');
   }
 });
