@@ -85,6 +85,7 @@
 
 <script>
 import NavbarToggleButton from '@/components/NavbarToggleButton'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'sidebar',
@@ -115,12 +116,25 @@ export default {
     showSidebar() {
       this.$sidebar.displaySidebar(true)
     },
-    logout() {
-      // 🧩 Ganti dengan logic logout kamu
-      // Contoh: hapus token dan redirect ke login
-      localStorage.removeItem('token');
+logout() {
+  Swal.fire({
+    title: "Logout?",
+    text: "Apakah kamu yakin ingin keluar?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Logout",
+    cancelButtonText: "Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // 🧩 Hapus data login
+      localStorage.removeItem('user');
+
+      // 🔒 Pastikan user tidak bisa back ke halaman sebelumnya
       this.$router.push('/login');
+      window.location.reload();
     }
+  });
+},
   },
   beforeDestroy() {
     if (this.$sidebar.showSidebar) {

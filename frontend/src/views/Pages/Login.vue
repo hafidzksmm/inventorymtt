@@ -52,13 +52,16 @@ export default {
       }
 
       try {
-        const res = await axios.post("http://192.168.40.200:5000/api/users/login", {
+        const res = await axios.post("http://192.168.20.17:5000/api/users/login", {
           username: this.username,
           password: this.password,
         });
 
         Swal.fire("Berhasil", "Login berhasil!", "success");
+        // ✅ Simpan status login
         localStorage.setItem("user", JSON.stringify(res.data.user));
+
+        // ✅ Redirect ke dashboard
         this.$router.push("/dashboard");
       } catch (err) {
         this.error =
@@ -71,13 +74,13 @@ export default {
 };
 </script>
 
+
 <style scoped>
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #ff5f6d, #ffc371);
 }
 
 .login-card {
