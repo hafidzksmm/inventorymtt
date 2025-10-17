@@ -37,7 +37,6 @@
               }"
             >
         </sidebar-item>
-
       </template>
 
       <template slot="links-after">

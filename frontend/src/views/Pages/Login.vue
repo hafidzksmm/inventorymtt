@@ -2,7 +2,7 @@
   <div class="login-container">
     <b-card class="login-card shadow">
       <h3 class="text-center mb-4">🔐 Login</h3>
-      <b-form @submit.prevent="handleLogin">
+      <b-form @submit.prevent="onSubmit">
         <b-form-group label="Username">
           <b-form-input
             v-model="username"
@@ -22,10 +22,6 @@
 
         <b-button type="submit" variant="primary" block>Login</b-button>
       </b-form>
-
-      <div v-if="error" class="text-danger text-center mt-3">
-        {{ error }}
-      </div>
     </b-card>
   </div>
 </template>
@@ -39,32 +35,28 @@ export default {
     return {
       username: "",
       password: "",
-      error: null,
     };
   },
   methods: {
-    async handleLogin() {
-      this.error = null;
-
-      if (!this.username || !this.password) {
-        this.error = "Username dan password wajib diisi.";
-        return;
-      }
-
+    async onSubmit() {
       try {
-        const res = await axios.post("http://192.168.40.200:5000/api/users/login", {
+        const res = await axios.post("http://192.168.10.9:5000/api/users/login", {
           username: this.username,
           password: this.password,
         });
 
-        Swal.fire("Berhasil", "Login berhasil!", "success");
-        localStorage.setItem("user", JSON.stringify(res.data.user));
+        // Simpan token
+        localStorage.setItem("token", res.data.token);
+
+        Swal.fire("Sukses", res.data.message, "success");
+
+        // Redirect ke dashboard
         this.$router.push("/dashboard");
       } catch (err) {
-        this.error =
+        const message =
           (err.response && err.response.data && err.response.data.message) ||
-          "Terjadi kesalahan saat login.";
-        Swal.fire("Gagal", this.error, "error");
+          "Login gagal.";
+        Swal.fire("Gagal", message, "error");
       }
     },
   },
@@ -77,7 +69,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #ff5f6d, #ffc371);
+  background: linear-gradient(135deg, #83a4d4, #b6fbff);
 }
 
 .login-card {
