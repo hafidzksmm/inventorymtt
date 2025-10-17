@@ -71,7 +71,7 @@
         </ul>
         <ul class="navbar-nav mb-md-3">
           <li class="nav-item">
-            <a class="nav-link" target="blank" href="http://192.168.40.150:5000/">
+            <a class="nav-link" target="blank" href="http://192.168.40.150:50/">
               <i class="ni ni-image"></i> Documentation Giat
             </a>
           </li>

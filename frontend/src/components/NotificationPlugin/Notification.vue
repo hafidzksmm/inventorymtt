@@ -101,11 +101,11 @@
       },
       timeout: {
         type: Number,
-        default: 5000,
+        default: 50,
         validator: value => {
           return value >= 0;
         },
-        description: 'Notification timeout (closes after X milliseconds). Default is 5000 (5s)'
+        description: 'Notification timeout (closes after X milliseconds). Default is 50 (5s)'
       },
       timestamp: {
         type: Date,

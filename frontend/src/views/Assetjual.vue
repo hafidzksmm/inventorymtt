@@ -260,13 +260,13 @@ export default {
   },
   methods: {
     async fetchItems() {
-      const res = await axios.get("http://192.168.20.17:5000/api/assetjual/assetjual");
+      const res = await axios.get("http://192.168.40.200:50/api/assetjual/assetjual");
       this.items = res.data;
       this.generateFilterOptions();
     },
 
     async fetchLokasi() {
-      const res = await axios.get("http://192.168.20.17:5000/api/assetjual/lokasi");
+      const res = await axios.get("http://192.168.40.200:50/api/assetjual/lokasi");
       this.lokasiOptions = [
         { value: "ALL", text: "📍 Semua Lokasi" },
         { value: "", text: "Pilih Lokasi" },
@@ -336,14 +336,14 @@ export default {
     },
 
     async createItem() {
-      await axios.post("http://192.168.20.17:5000/api/assetjual", this.form);
+      await axios.post("http://192.168.40.200:50/api/assetjual", this.form);
       alert("✅ Data berhasil ditambahkan!");
       this.isModalOpen = false;
       this.fetchItems();
     },
 
     async updateItem() {
-      await axios.put(`http://192.168.20.17:5000/api/assetjual/${this.form.id}`, this.form);
+      await axios.put(`http://192.168.40.200:50/api/assetjual/${this.form.id}`, this.form);
       alert("✅ Data diperbarui!");
       this.isModalOpen = false;
       this.fetchItems();
@@ -351,7 +351,7 @@ export default {
 
     async deleteItem(id) {
       if (confirm("Yakin ingin menghapus data ini?")) {
-        await axios.delete(`http://192.168.20.17:5000/api/assetjual/${id}`);
+        await axios.delete(`http://192.168.40.200:50/api/assetjual/${id}`);
         this.fetchItems();
       }
     },
@@ -373,7 +373,7 @@ export default {
             ? jsonData
             : jsonData.map((r) => ({ ...r, lokasi: this.selectedLokasi }));
 
-        await axios.post("http://192.168.20.17:5000/api/assetjual/assetjual/import", withLoc);
+        await axios.post("http://192.168.40.200:50/api/assetjual/assetjual/import", withLoc);
         alert("✅ Import berhasil!");
         this.showImportModal = false;
         this.fetchItems();
