@@ -266,7 +266,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const res = await axios.get("http://192.168.40.200:50/api/inventaris/inventaris");
+        const res = await axios.get("http://192.168.20.17:50/api/inventaris/inventaris");
         this.items = res.data;
         this.generateFilterOptions();
       } catch (err) {
@@ -331,7 +331,7 @@ export default {
             : jsonData.map((r) => ({ ...r, lokasi: this.selectedLokasi }));
         try {
           await axios.post(
-            "http://192.168.40.200:50/api/inventaris/inventaris/import",
+            "http://192.168.20.17:50/api/inventaris/inventaris/import",
             dataWithLocation
           );
           alert("✅ Import data berhasil!");
@@ -365,13 +365,13 @@ export default {
       this.isModalOpen = true;
     },
     async createItem() {
-      await axios.post("http://192.168.40.200:50/api/inventaris/inventaris", this.form);
+      await axios.post("http://192.168.20.17:50/api/inventaris/inventaris", this.form);
       this.isModalOpen = false;
       this.fetchData();
     },
     async updateItem() {
       await axios.put(
-        `http://192.168.40.200:50/api/inventaris/inventaris/${this.form.id}`,
+        `http://192.168.20.17:50/api/inventaris/inventaris/${this.form.id}`,
         this.form
       );
       this.isModalOpen = false;
@@ -379,7 +379,7 @@ export default {
     },
     async deleteItem(id) {
       if (confirm("Yakin ingin menghapus data ini?")) {
-        await axios.delete(`http://192.168.40.200:50/api/inventaris/inventaris/${id}`);
+        await axios.delete(`http://192.168.20.17:50/api/inventaris/inventaris/${id}`);
         this.fetchData();
       }
     },
