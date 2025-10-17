@@ -28,14 +28,6 @@
           </b-row>
         </div>
         <b-navbar-nav class="align-items-lg-center ml-lg-auto">
-          <b-nav-item to="/register">
-            <i class="ni ni-circle-08"></i>
-            <span class="nav-link-inner--text font-weight-bold">Register</span>
-          </b-nav-item>
-          <b-nav-item to="/login">
-            <i class="ni ni-key-25"></i>
-            <span class="nav-link-inner--text font-weight-bold">Login</span>
-          </b-nav-item>
         </b-navbar-nav>
       </template>
     </base-nav>

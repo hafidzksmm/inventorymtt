@@ -37,9 +37,6 @@
       <!-- Footer -->
       <div class="login-footer d-flex justify-content-between mt-3">
         <small class="text-muted">© 2025 by Hafidz</small>
-        <router-link to="/register" class="register-link">
-          Belum punya akun? <span class="text-primary">Daftar</span>
-        </router-link>
       </div>
     </b-card>
   </div>
