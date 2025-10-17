@@ -32,7 +32,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   try {
-    const res = await axios.get('http://192.168.10.9:5000/api/users/check-token', {
+    const res = await axios.get('http://192.168.40.200:5000/api/users/check-token', {
       headers: { Authorization: `Bearer ${token}` },
     });
 
