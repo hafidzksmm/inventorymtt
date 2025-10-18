@@ -179,7 +179,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import * as XLSX from "xlsx";
 
 export default {
@@ -188,7 +187,7 @@ export default {
       items: [],
       search: "",
       currentPage: 1,
-      perPage: 100,
+      perPage: 10,
       isModalOpen: false,
       isEdit: false,
       showFilterModal: false,
@@ -200,11 +199,14 @@ export default {
         jenis: "",
         ukuran: "",
         dimensi: "",
-        lokasi: ""
+        lokasi: "",
       },
       lokasiOptions: [
         { value: "ALL", text: "📍 Semua Lokasi" },
-        { value: "", text: "Pilih Lokasi" }
+        { value: "", text: "Pilih Lokasi" },
+        { value: "Jakarta", text: "Jakarta" },
+        { value: "Surabaya", text: "Surabaya" },
+        { value: "Bandung", text: "Bandung" },
       ],
       namaBarangOptions: [],
       jenisOptions: [],
@@ -218,7 +220,7 @@ export default {
         dimensi: "",
         qty: 0,
         satuan: "",
-        lokasi: ""
+        lokasi: "",
       },
       fields: [
         { key: "nama_barang", label: "Nama Barang" },
@@ -228,51 +230,71 @@ export default {
         { key: "qty", label: "Jumlah" },
         { key: "lokasi", label: "Lokasi" },
         { key: "created_at", label: "Tanggal Dibuat" },
-        { key: "actions", label: "Aksi" }
-      ]
+        { key: "actions", label: "Aksi" },
+      ],
     };
   },
+
   computed: {
     filteredItems() {
       let data = [...this.items];
 
       if (this.filters.nama_barang)
-        data = data.filter(i => i.nama_barang === this.filters.nama_barang);
+        data = data.filter((i) => i.nama_barang === this.filters.nama_barang);
       if (this.filters.jenis)
-        data = data.filter(i => i.jenis === this.filters.jenis);
+        data = data.filter((i) => i.jenis === this.filters.jenis);
       if (this.filters.ukuran)
-        data = data.filter(i => i.ukuran === this.filters.ukuran);
+        data = data.filter((i) => i.ukuran === this.filters.ukuran);
       if (this.filters.dimensi)
-        data = data.filter(i => i.dimensi === this.filters.dimensi);
+        data = data.filter((i) => i.dimensi === this.filters.dimensi);
       if (this.filters.lokasi && this.filters.lokasi !== "ALL")
-        data = data.filter(i => i.lokasi === this.filters.lokasi);
+        data = data.filter((i) => i.lokasi === this.filters.lokasi);
 
       if (this.search.trim()) {
         const kw = this.search.toLowerCase();
-        data = data.filter(i =>
+        data = data.filter((i) =>
           `${i.nama_barang} ${i.jenis} ${i.ukuran} ${i.dimensi} ${i.lokasi}`
             .toLowerCase()
             .includes(kw)
         );
       }
       return data;
-    }
+    },
   },
-  methods: {
-    async fetchItems() {
-      const res = await axios.get("http://192.168.40.200:5000/api/assetjual/assetjual");
-      this.items = res.data;
-      this.generateFilterOptions();
-    },
 
-    async fetchLokasi() {
-      const res = await axios.get("http://192.168.40.200:5000/api/assetjual/lokasi");
-      this.lokasiOptions = [
-        { value: "ALL", text: "📍 Semua Lokasi" },
-        { value: "", text: "Pilih Lokasi" },
-        ...[...new Set(res.data.map(i => i.lokasi))].map(l => ({ value: l, text: l }))
-      ];
-    },
+  methods: {
+    // 💾 Data dummy
+fetchItems() {
+  this.items = [
+    { id: 1, nama_barang: "Modul (Transceiver)", jenis: "SFP", ukuran: "1G", dimensi: "Dell", qty: 6, satuan: "pcs", lokasi: "data" },
+    { id: 2, nama_barang: "Modul (Transceiver)", jenis: "SFP", ukuran: "1G", dimensi: "FINISAR", qty: 2, satuan: "pcs", lokasi: "data" },
+    { id: 3, nama_barang: "Modul (Transceiver)", jenis: "SFP+", ukuran: "10G", dimensi: "Dell", qty: 4, satuan: "pcs", lokasi: "data" },
+    { id: 4, nama_barang: "Modul (Transceiver)", jenis: "SFP+", ukuran: "10G", dimensi: "D-Link", qty: 42, satuan: "pcs", lokasi: "data" },
+    { id: 5, nama_barang: "Modul (Transceiver)", jenis: "SFP+", ukuran: "10G", dimensi: "Edge-Core", qty: 6, satuan: "pcs", lokasi: "data" },
+    { id: 6, nama_barang: "Modul (Transceiver)", jenis: "SFP+", ukuran: "10G", dimensi: "Huawei", qty: 1, satuan: "pcs", lokasi: "data" },
+    { id: 7, nama_barang: "Modul (Transceiver)", jenis: "SFP+", ukuran: "10G", dimensi: "Lenovo", qty: 1, satuan: "pcs", lokasi: "data" },
+    { id: 8, nama_barang: "Modul (Transceiver)", jenis: "SFP+", ukuran: "25G", dimensi: "Dell", qty: 9, satuan: "pcs", lokasi: "data" },
+    { id: 9, nama_barang: "Modul (Transceiver)", jenis: "Konverter SFP to RJ45", ukuran: "1G", dimensi: "Copper", qty: 2, satuan: "pcs", lokasi: "data" },
+    { id: 10, nama_barang: "Modul (Transceiver)", jenis: "Konverter SFP to RJ46", ukuran: "1G", dimensi: "Nokia", qty: 1, satuan: "pcs", lokasi: "data" },
+    { id: 11, nama_barang: "Modul (Transceiver)", jenis: "Konverter SFP to RJ47", ukuran: "1G", dimensi: "Avago", qty: 1, satuan: "pcs", lokasi: "data" },
+    { id: 12, nama_barang: "Modul (Transceiver)", jenis: "Konverter SFP to RJ48", ukuran: "1G", dimensi: "Linktel", qty: 1, satuan: "pcs", lokasi: "data" },
+    { id: 13, nama_barang: "Modul (Transceiver)", jenis: "Konverter SFP to RJ49", ukuran: "10G", dimensi: "NETLINE", qty: 1, satuan: "pcs", lokasi: "data" },
+    { id: 14, nama_barang: "Modul (Transceiver)", jenis: "QSFP", ukuran: "100G", dimensi: "Dell", qty: 10, satuan: "pcs", lokasi: "data" },
+    { id: 15, nama_barang: "Modul (Transceiver)", jenis: "MPO", ukuran: "100G", dimensi: "Dell", qty: 4, satuan: "pcs", lokasi: "data" },
+    { id: 16, nama_barang: "Konverter VGA", jenis: "Mini DP to VGA", ukuran: "", dimensi: "", qty: 48, satuan: "pcs", lokasi: "data" },
+    { id: 17, nama_barang: "Konverter VGA", jenis: "", ukuran: "", dimensi: "", qty: 33, satuan: "pcs", lokasi: "data" },
+    { id: 18, nama_barang: "RAM", jenis: "16GB", ukuran: "", dimensi: "", qty: 316, satuan: "pcs", lokasi: "data" },
+    { id: 19, nama_barang: "RAM", jenis: "4GB", ukuran: "", dimensi: "", qty: 1, satuan: "pcs", lokasi: "data" },
+    { id: 20, nama_barang: "Kabel KVM", jenis: "Digital", ukuran: "", dimensi: "", qty: 5, satuan: "pcs", lokasi: "data" },
+    { id: 21, nama_barang: "Kabel KVM", jenis: "IP", ukuran: "", dimensi: "", qty: 5, satuan: "pcs", lokasi: "data" },
+    { id: 22, nama_barang: "Kabel KVM", jenis: "Analog", ukuran: "", dimensi: "", qty: 123, satuan: "pcs", lokasi: "data" },
+    { id: 23, nama_barang: "Kabel KVM", jenis: "PS/2", ukuran: "", dimensi: "", qty: 5, satuan: "pcs", lokasi: "data" },
+    { id: 24, nama_barang: "Kabel KVM", jenis: "DAC", ukuran: "", dimensi: "", qty: 1, satuan: "pcs", lokasi: "data" },
+    { id: 25, nama_barang: "Hard disk", jenis: "SAS 2.5 inc", ukuran: "1.2 TB", dimensi: "HGST", qty: 2, satuan: "pcs", lokasi: "data" },
+  ];
+
+  this.generateFilterOptions();
+},
 
     generateFilterOptions() {
       const unique = (key) =>
@@ -281,7 +303,10 @@ export default {
           text: v,
         }));
 
-      this.namaBarangOptions = [{ value: "", text: "Pilih Nama Barang" }, ...unique("nama_barang")];
+      this.namaBarangOptions = [
+        { value: "", text: "Pilih Nama Barang" },
+        ...unique("nama_barang"),
+      ];
       this.jenisOptions = [{ value: "", text: "Pilih Jenis" }];
       this.ukuranOptions = [{ value: "", text: "Pilih Ukuran" }];
       this.dimensiOptions = [{ value: "", text: "Pilih Dimensi" }];
@@ -316,16 +341,7 @@ export default {
 
     showAddModal() {
       this.isEdit = false;
-      this.form = {
-        id: null,
-        nama_barang: "",
-        jenis: "",
-        ukuran: "",
-        dimensi: "",
-        qty: 0,
-        satuan: "",
-        lokasi: ""
-      };
+      this.form = { id: null, nama_barang: "", jenis: "", ukuran: "", dimensi: "", qty: 0, satuan: "", lokasi: "" };
       this.isModalOpen = true;
     },
 
@@ -335,50 +351,30 @@ export default {
       this.isModalOpen = true;
     },
 
-    async createItem() {
-      await axios.post("http://192.168.40.200:5000/api/assetjual", this.form);
+    createItem() {
+      this.form.id = Date.now();
+      this.form.created_at = new Date().toISOString();
+      this.items.push({ ...this.form });
       alert("✅ Data berhasil ditambahkan!");
       this.isModalOpen = false;
-      this.fetchItems();
     },
 
-    async updateItem() {
-      await axios.put(`http://192.168.40.200:5000/api/assetjual/${this.form.id}`, this.form);
+    updateItem() {
+      const idx = this.items.findIndex((i) => i.id === this.form.id);
+      if (idx !== -1) this.items.splice(idx, 1, { ...this.form });
       alert("✅ Data diperbarui!");
       this.isModalOpen = false;
-      this.fetchItems();
     },
 
-    async deleteItem(id) {
+    deleteItem(id) {
       if (confirm("Yakin ingin menghapus data ini?")) {
-        await axios.delete(`http://192.168.40.200:5000/api/assetjual/${id}`);
-        this.fetchItems();
+        this.items = this.items.filter((i) => i.id !== id);
       }
     },
 
-    async handleImportExcel() {
-      if (!this.selectedFile || !this.selectedLokasi) {
-        alert("⚠️ Harap pilih lokasi dan file Excel terlebih dahulu!");
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, { type: "array" });
-        const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(sheet);
-
-        const withLoc =
-          this.selectedLokasi === "ALL"
-            ? jsonData
-            : jsonData.map((r) => ({ ...r, lokasi: this.selectedLokasi }));
-
-        await axios.post("http://192.168.40.200:5000/api/assetjual/assetjual/import", withLoc);
-        alert("✅ Import berhasil!");
-        this.showImportModal = false;
-        this.fetchItems();
-      };
-      reader.readAsArrayBuffer(this.selectedFile);
+    handleImportExcel() {
+      alert("📥 Fitur import hanya contoh (tidak aktif tanpa API).");
+      this.showImportModal = false;
     },
 
     downloadExcel() {
@@ -398,21 +394,15 @@ export default {
     },
 
     resetFilter() {
-      this.filters = {
-        nama_barang: "",
-        jenis: "",
-        ukuran: "",
-        dimensi: "",
-        lokasi: ""
-      };
+      this.filters = { nama_barang: "", jenis: "", ukuran: "", dimensi: "", lokasi: "" };
       this.generateFilterOptions();
       this.currentPage = 1;
-    }
+    },
   },
+
   mounted() {
     this.fetchItems();
-    this.fetchLokasi();
-  }
+  },
 };
 </script>
 
