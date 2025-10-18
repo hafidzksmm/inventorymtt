@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import Swal from "sweetalert2";
 
 export default {
@@ -46,24 +45,29 @@ export default {
     async handleLogin() {
       this.error = null;
 
+      // 🔒 Validasi input kosong
       if (!this.username || !this.password) {
         this.error = "Username dan password wajib diisi.";
         return;
       }
 
-      try {
-        const res = await axios.post("http://192.168.40.200:5000/api/users/login", {
-          username: this.username,
-          password: this.password,
-        });
+      // 🧩 Login statis
+      const validUsername = "admin";
+      const validPassword = "1q2w3e4r5T!";
 
+      if (this.username === validUsername && this.password === validPassword) {
         Swal.fire("Berhasil", "Login berhasil!", "success");
-        localStorage.setItem("user", JSON.stringify(res.data.user));
+
+        // Simpan status login di localStorage
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ username: this.username, role: "admin" })
+        );
+
+        // Arahkan ke dashboard
         this.$router.push("/dashboard");
-      } catch (err) {
-        this.error =
-          (err.response && err.response.data && err.response.data.message) ||
-          "Terjadi kesalahan saat login.";
+      } else {
+        this.error = "Username atau password salah.";
         Swal.fire("Gagal", this.error, "error");
       }
     },
@@ -83,5 +87,6 @@ export default {
   width: 400px;
   border-radius: 16px;
   padding: 20px;
+  background: white;
 }
 </style>
