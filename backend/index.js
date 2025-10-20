@@ -3,7 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-const PORT = 1080; // <- pakai port publik kamu
+const PORT = 5000; // <- pakai port publik kamu
 
 // Middleware
 app.use(cors());
@@ -29,5 +29,5 @@ app.get("/", (req, res) => {
 
 // Jalankan server HTTP
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`✅ Server berjalan di http://103.56.92.112:${PORT}`);
+  console.log(`✅ Server berjalan di http://localhost:${PORT}`);
 });

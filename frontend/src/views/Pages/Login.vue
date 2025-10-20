@@ -54,9 +54,8 @@ export default {
       }
 
       try {
-        // 🔗 Kirim request ke API backend via IP publik
         const response = await axios.post(
-          "https://103.56.92.112:1080/api/users/login",
+          "http://192.168.40.200:5000/api/users/login",
           {
             username: this.username,
             password: this.password,
