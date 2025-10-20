@@ -3,7 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-const PORT = 5000;
+const PORT = 1080; // <- pakai port publik kamu
 
 // Middleware
 app.use(cors());
@@ -24,10 +24,10 @@ app.use("/api/users", usersRoutes);
 
 // Root test
 app.get("/", (req, res) => {
-  res.send("🚀 API Utama Inventaris berjalan!");
+  res.send("🚀 API Utama Inventaris berjalan via HTTP!");
 });
 
-// Jalankan server
-app.listen(PORT, () => {
-  console.log(`✅ Server berjalan di http://192.168.40.200:${PORT}`);
+// Jalankan server HTTP
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`✅ Server berjalan di http://103.56.92.112:${PORT}`);
 });

@@ -2,6 +2,7 @@
   <div class="login-container">
     <b-card class="login-card shadow">
       <h3 class="text-center mb-4">🔐 Login</h3>
+
       <b-form @submit.prevent="handleLogin">
         <b-form-group label="Username">
           <b-form-input
@@ -32,6 +33,7 @@
 
 <script>
 import Swal from "sweetalert2";
+import axios from "axios";
 
 export default {
   data() {
@@ -45,30 +47,42 @@ export default {
     async handleLogin() {
       this.error = null;
 
-      // 🔒 Validasi input kosong
+      // 🧩 Validasi input kosong
       if (!this.username || !this.password) {
         this.error = "Username dan password wajib diisi.";
         return;
       }
 
-      // 🧩 Login statis
-      const validUsername = "admin";
-      const validPassword = "1q2w3e4r5T!";
-
-      if (this.username === validUsername && this.password === validPassword) {
-        Swal.fire("Berhasil", "Login berhasil!", "success");
-
-        // Simpan status login di localStorage
-        localStorage.setItem(
-          "user",
-          JSON.stringify({ username: this.username, role: "admin" })
+      try {
+        // 🔗 Kirim request ke API backend via IP publik
+        const response = await axios.post(
+          "https://103.56.92.112:1080/api/users/login",
+          {
+            username: this.username,
+            password: this.password,
+          },
+          {
+            withCredentials: false,
+          }
         );
 
-        // Arahkan ke dashboard
-        this.$router.push("/dashboard");
-      } else {
-        this.error = "Username atau password salah.";
-        Swal.fire("Gagal", this.error, "error");
+        // ✅ Cek hasil respons dari backend
+        if (response.data.success) {
+          Swal.fire("Berhasil", "Login berhasil!", "success");
+
+          // Simpan data user ke localStorage
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+
+          // Arahkan ke dashboard
+          this.$router.push("/dashboard");
+        } else {
+          this.error = response.data.message || "Username atau password salah.";
+          Swal.fire("Gagal", this.error, "error");
+        }
+      } catch (err) {
+        console.error(err);
+        this.error = "Tidak dapat terhubung ke server. Pastikan API berjalan.";
+        Swal.fire("Error", this.error, "error");
       }
     },
   },
