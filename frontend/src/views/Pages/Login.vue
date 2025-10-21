@@ -6,7 +6,7 @@
       <b-form @submit.prevent="handleLogin">
         <b-form-group label="Username">
           <b-form-input
-            v-model="username"
+            v-model.trim="username"
             placeholder="Masukkan username"
             required
           ></b-form-input>
@@ -14,7 +14,7 @@
 
         <b-form-group label="Password">
           <b-form-input
-            v-model="password"
+            v-model.trim="password"
             type="password"
             placeholder="Masukkan password"
             required
@@ -47,40 +47,43 @@ export default {
     async handleLogin() {
       this.error = null;
 
-      // 🧩 Validasi input kosong
       if (!this.username || !this.password) {
         this.error = "Username dan password wajib diisi.";
+        Swal.fire("Peringatan", this.error, "warning");
         return;
       }
 
       try {
+        // 🚀 Kirim request ke backend
         const response = await axios.post(
-          "http://192.168.40.200:5000/api/users/login",
+          "http://localhost:5000/api/users/login",
           {
             username: this.username,
             password: this.password,
           },
           {
-            withCredentials: false,
+            headers: {
+              "Content-Type": "application/json",
+            },
           }
         );
 
-        // ✅ Cek hasil respons dari backend
-        if (response.data.success) {
-          Swal.fire("Berhasil", "Login berhasil!", "success");
+        console.log("Response dari backend:", response.data);
 
-          // Simpan data user ke localStorage
-          localStorage.setItem("user", JSON.stringify(response.data.user));
+        const { success, message, user } = response.data;
 
-          // Arahkan ke dashboard
+        if (success === true) {
+          Swal.fire("Berhasil", message || "Login berhasil!", "success");
+          localStorage.setItem("user", JSON.stringify(user));
           this.$router.push("/dashboard");
         } else {
-          this.error = response.data.message || "Username atau password salah.";
-          Swal.fire("Gagal", this.error, "error");
+          const errMsg = message || "Username atau password salah.";
+          this.error = errMsg;
+          Swal.fire("Gagal", errMsg, "error");
         }
       } catch (err) {
-        console.error(err);
-        this.error = "Tidak dapat terhubung ke server. Pastikan API berjalan.";
+        console.error("Error saat login:", err);
+        this.error = "Tidak dapat terhubung ke server. Pastikan backend berjalan.";
         Swal.fire("Error", this.error, "error");
       }
     },
@@ -101,5 +104,6 @@ export default {
   border-radius: 16px;
   padding: 20px;
   background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 </style>

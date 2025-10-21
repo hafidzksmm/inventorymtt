@@ -83,14 +83,6 @@ export default {
       next();
     }
   },
-  watch: {
-    $route: {
-      immediate: true,
-      handler() {
-        this.updateBackground();
-      },
-    },
-  },
 };
 </script>
 
